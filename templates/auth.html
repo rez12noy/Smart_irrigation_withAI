@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register - Smart Irrigation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4CAF50;
+      --primary-dark: #388E3C;
+      --primary-light: #C8E6C9;
+      --secondary-color: #2196F3;
+      --text-color: #333;
+      --light-gray: #f5f5f5;
+      --white: #ffffff;
+      --error-color: #f44336;
+      --success-color: #4CAF50;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+      background-image: url('https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .auth-container {
+      max-width: 420px;
+      width: 90%;
+      margin: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      box-shadow: var(--box-shadow);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .auth-container:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo i {
+      font-size: 40px;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 24px;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+    
+    .auth-container h2 {
+      margin: 0 0 25px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    
+    .auth-container form {
+      display: none;
+      flex-direction: column;
+    }
+    
+    .auth-container form.active {
+      display: flex;
+    }
+    
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .auth-container input {
+      width: 100%;
+      padding: 14px 16px;
+      padding-right: 40px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 15px;
+      transition: all 0.3s;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .auth-container input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #777;
+      transition: color 0.3s;
+    }
+    
+    .password-toggle:hover {
+      color: var(--primary-color);
+    }
+    
+    .auth-container button {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    
+    .auth-container button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .auth-container button:active {
+      transform: translateY(0);
+    }
+    
+    .toggle-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    
+    .toggle-link:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+    
+    .error-box {
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: var(--border-radius);
+      display: none;
+      font-size: 14px;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .error {
+      background: rgba(244, 67, 54, 0.1);
+      border-left: 4px solid var(--error-color);
+      color: var(--error-color);
+    }
+    
+    .success {
+      background: rgba(76, 175, 80, 0.1);
+      border-left: 4px solid var(--success-color);
+      color: var(--success-color);
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: #999;
+      font-size: 14px;
+    }
+    
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .divider::before {
+      margin-right: 10px;
+    }
+    
+    .divider::after {
+      margin-left: 10px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 30px 20px;
+      }
+      
+      .logo h1 {
+        font-size: 20px;
+      }
+      
+      .auth-container h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="logo">
+      <i class="fas fa-tint"></i>
+      <h1>Smart Irrigation</h1>
+    </div>
+    
+    <h2 id="form-title">Welcome Back</h2>
+
+    <div id="error" class="error-box"></div>
+
+    <!-- Login Form -->
+    <form id="login-form" class="active">
+      <div class="input-group">
+        <input type="email" id="login-email" placeholder="Email Address" required />
+        <i class="fas fa-envelope input-icon"></i>
+      </div>
+      <div class="input-group">
+        <input type="password" id="login-password" placeholder="Password" required />
+        <i class="fas fa-lock input-icon"></i>
+        <i class="fas fa-eye password-toggle" onclick="togglePassword('login-password')"></i>
+      </div>
+      <button type="submit">Sign In</button>
+      
+      <div class="divider">or</div>
+    </form>
+
+    <!-- Register Form -->
+    <form id="register-form">
+      <div class="input-group">
+        <input type="email" id="register-email" placeholder="Email Address" required />
+        <i class="fas fa-envelope input-icon"></i>
+      </div>
+      <div class="input-group">
+        <input type="password" id="register-password" placeholder="Password" required />
+        <i class="fas fa-lock input-icon"></i>
+        <i class="fas fa-eye password-toggle" onclick="togglePassword('register-password')"></i>
+      </div>
+      <div class="input-group">
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+        <i class="fas fa-lock input-icon"></i>
+        <i class="fas fa-eye password-toggle" onclick="togglePassword('confirm-password')"></i>
+      </div>
+      <button type="submit">Create Account</button>
+    </form>
+
+    <div class="toggle-link" id="toggleForm">Don't have an account? <span>Register</span></div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+    const toggleLink = document.getElementById("toggleForm");
+    const formTitle = document.getElementById("form-title");
+    const errorBox = document.getElementById("error");
+  
+    let isLogin = true;
+  
+    toggleLink.addEventListener("click", () => {
+      isLogin = !isLogin;
+      loginForm.classList.toggle("active", isLogin);
+      registerForm.classList.toggle("active", !isLogin);
+      formTitle.textContent = isLogin ? "Welcome Back" : "Create Account";
+      toggleLink.innerHTML = isLogin ? 'Don\'t have an account? <span>Register</span>' : 'Already have an account? <span>Login</span>';
+      errorBox.style.display = "none";
+    });
+  
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      const icon = input.nextElementSibling.nextElementSibling;
+      input.type = input.type === "password" ? "text" : "password";
+      icon.classList.toggle("fa-eye");
+      icon.classList.toggle("fa-eye-slash");
+    }
+  
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+  
+      try {
+        const res = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+          credentials: "include"
+        });
+  
+        const data = await res.json();
+        if (res.ok) {
+          window.location.href = "/";
+        } else {
+          showError(data.message || "Login failed. Please check your credentials.");
+        }
+      } catch (error) {
+        showError("Network error. Please try again.");
+      }
+    });
+  
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("register-email").value;
+      const password = document.getElementById("register-password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+  
+      if (password !== confirmPassword) {
+        showError("Passwords do not match.");
+        return;
+      }
+  
+      try {
+        const res = await fetch("/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+          credentials: "include"
+        });
+  
+        const data = await res.json();
+        if (res.ok) {
+          showSuccess("Account created successfully! Please login.");
+          // Directly switch to login form without toggle
+          isLogin = true;
+          loginForm.classList.add("active");
+          registerForm.classList.remove("active");
+          formTitle.textContent = "Welcome Back";
+          toggleLink.innerHTML = 'Don\'t have an account? <span>Register</span>';
+        } else {
+          showError(data.message || "Registration failed. Please try again.");
+        }
+      } catch (error) {
+        showError("Network error. Please try again.");
+      }
+    });
+  
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.className = "error-box error";
+      errorBox.style.display = "block";
+    }
+  
+    function showSuccess(message) {
+      errorBox.textContent = message;
+      errorBox.className = "error-box success";
+      errorBox.style.display = "block";
+    }
+  </script>
+</body>
+</html>

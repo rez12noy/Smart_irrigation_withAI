@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Irrigation Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1><i class="fas fa-tint"></i> Smart Irrigation Dashboard</h1>
+
+      <div class="profile-dropdown">
+        <div id="profileIcon">U</div>
+        <div id="profileMenu">
+          <div id="profileEmail">user@example.com</div>
+          <form action="/logout" method="post">
+            <button type="submit" style="background-color: var(--danger); color: white; width: 100%;">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <!-- Error message box -->
+    <div id="error-message">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="error-text"></span>
+    </div>
+
+    <!-- Main dashboard layout - UPDATED STRUCTURE -->
+    <div class="dashboard">
+      <!-- Live data section -->
+      <div class="card combined-card">
+        <h2><i class="fas fa-chart-line"></i> Present Condition</h2>
+        <div class="combined-row">
+          <div class="data-item">
+            <div class="data-label">Moisture Level</div>
+            <div class="data-value" id="moistureLevel">Waiting...</div>
+          </div>
+          <div class="data-item">
+            <div class="data-label">Temperature</div>
+            <div class="data-value" id="temperature">-</div>
+          </div>
+          <div class="data-item">
+            <div class="data-label">Humidity</div>
+            <div class="data-value" id="humidity">-</div>
+          </div>
+          <div class="data-item">
+            <div class="data-label">Rainfall This Month</div>
+            <div class="data-value" id="rainfall">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control section - centered -->
+      <div class="control-section">
+        <!-- System status section -->
+        <div class="card status-card">
+          <h2><i class="fas fa-info-circle"></i> System Status</h2>
+          <div id="statusMessage" class="status-message checking">
+            <i class="fas fa-sync-alt fa-spin"></i> Waiting for ESP32 data...
+          </div>
+          <div class="data-row">
+            <div class="data-item">
+              <div class="data-label">Current Crop</div>
+              <div class="data-value" id="currentCrop">-</div>
+            </div>
+            <div class="data-item">
+              <div class="data-label">Current Month</div>
+              <div class="data-value" id="currentMonth">-</div>
+            </div>
+            <div class="data-item">
+              <div class="data-label">Predicted Water Need</div>
+              <div class="data-value" id="waterNeed">Waiting...</div>
+            </div>
+            <div class="data-item">
+              <div class="data-label">Pump Status</div>
+              <div class="data-value" id="pumpStatus">Waiting...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crop selection section -->
+        <div class="card">
+          <h2><i class="fas fa-seedling"></i> Crop Settings</h2>
+          <div class="crop-select-row">
+            <select id="cropSelect"></select>
+            <button id="updateCropBtn">
+              <i class="fas fa-save"></i> Update
+            </button>
+          </div>
+          <div id="cropUpdateStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History table -->
+    <div class="card">
+      <h2><i class="fas fa-history"></i> Historical Data</h2>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Crop</th>
+            <th>Month</th>
+            <th>Moisture</th>
+            <th>Water Need</th>
+            <th>Pumped</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
