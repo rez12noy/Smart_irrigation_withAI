@@ -11,9 +11,6 @@ ESP32 + soil moisture sensor + relay-controlled water pump
 Flask dashboard with crop selector, system status, and historical logs
 
 📁 Project Structure
-php
-Copy
-Edit
 .
 ├── firmware/           # ESP32 C++ code (Arduino-compatible)
 │   ├── model.h         # TFLite model (header file)
